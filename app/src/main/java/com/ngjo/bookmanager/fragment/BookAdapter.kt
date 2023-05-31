@@ -11,6 +11,11 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
     var bookList = mutableListOf<Book>()
 
+    var bookListener: BookInterface? = null
+    fun setBookInterface(listener: BookInterface) {
+        bookListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         val binding = ItemBookBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -23,25 +28,6 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         holder.bind(bookList[position], position)
     }
-
-    fun setList(list: MutableList<Book>) {
-        bookList.clear()
-        list.forEach { book ->
-            bookList.add(
-                Book(
-                    title = book.title
-                )
-            )
-        }
-    }
-
-
-//    fun addItem(item: Book) {
-//        bookList.add(item)
-////        notifyItemInserted(bookList.size-1)
-//        Log.d("TOTO", "${bookList.size}")
-//        notifyDataSetChanged()
-//    }
 
 
     inner class BookViewHolder(
@@ -56,7 +42,12 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
             binding.title.setOnClickListener {
                 Log.d("TOTO", "item Clicked : ${binding.title.text}")
+                bookListener?.showDetailFragment(binding.title.text.toString())
             }
         }
     }
+}
+
+interface BookInterface {
+    fun showDetailFragment(title: String)
 }

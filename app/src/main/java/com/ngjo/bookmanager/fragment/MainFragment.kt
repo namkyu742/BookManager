@@ -1,23 +1,13 @@
 package com.ngjo.bookmanager.fragment
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.ImageDecoder
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ngjo.bookmanager.R
 import com.ngjo.bookmanager.databinding.LayoutMainFragmentBinding
 
 
@@ -26,9 +16,9 @@ class MainFragment: Fragment() {
 
     var bookAdapter: BookAdapter = BookAdapter()
     var bookList = mutableListOf(
-        Book(title = "A-가나다라마바사"),
-        Book(title = "B-아자차카타파하"),
-        Book(title = "C-1234456789")
+        Book(title = "A-가나다라마바사", price = 6800, number = 0),
+        Book(title = "B-아자차카타파하", price = 7800, number = 3),
+        Book(title = "C-1234456789", price = 4800, number = 2)
     )
 
     companion object {
@@ -54,12 +44,17 @@ class MainFragment: Fragment() {
         initSampleData()
         initSearchBar()
 
+        bookAdapter.setBookInterface(object: BookInterface{
+            override fun showDetailFragment(title: String) {
+                showDetailFragment1(title)
+            }
 
+        })
 
         binding.buttonAddBook.setOnClickListener {
-            bookList.add(Book(title = "TEST"))
-            bookAdapter.bookList = bookList
-            bookAdapter.notifyDataSetChanged()
+//            bookList.add(Book(title = "TEST"))
+//            bookAdapter.bookList = bookList
+//            bookAdapter.notifyDataSetChanged()
         }
 
         return binding.root
@@ -89,5 +84,19 @@ class MainFragment: Fragment() {
         binding.recyclerView1.layoutManager = LinearLayoutManager(this@MainFragment.requireContext())
     }
 
+
+    fun showDetailFragment1(title: String) {
+        var tFragment = BookDetailFragment.newInstance(Book()) // 비효율적. 수정필요
+        bookList.forEach {
+            if (it.title == title) {
+                tFragment = BookDetailFragment.newInstance(it)
+
+            }
+        }
+        childFragmentManager.beginTransaction()
+            .replace(binding.fragmentContainerView.id, tFragment)
+            .commit()
+
+    }
 
 }
