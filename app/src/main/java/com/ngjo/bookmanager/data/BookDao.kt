@@ -3,7 +3,6 @@ package com.ngjo.bookmanager.data
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.ngjo.bookmanager.fragment.Book
 
 @Dao
 interface BookDao {

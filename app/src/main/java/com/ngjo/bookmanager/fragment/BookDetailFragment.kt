@@ -1,15 +1,19 @@
 package com.ngjo.bookmanager.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.ngjo.bookmanager.data.Book
 import com.ngjo.bookmanager.databinding.LayoutBookDetailFragmentBinding
+import com.ngjo.bookmanager.viewmodel.BookDetailViewModel
 
 class BookDetailFragment : Fragment() {
     private lateinit var binding: LayoutBookDetailFragmentBinding
+    private val viewModel by viewModels<BookDetailViewModel>()
+
     lateinit var currentBook: Book
 
     companion object {
@@ -41,6 +45,7 @@ class BookDetailFragment : Fragment() {
         binding.title.text = currentBook.title
         binding.price.text = currentBook.price.toString()
         binding.number.text = currentBook.number.toString()
+        binding.date.text = currentBook.date
 
 
 
