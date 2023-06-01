@@ -1,12 +1,10 @@
 package com.ngjo.bookmanager.fragment
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.ngjo.bookmanager.databinding.LayoutBookDetailFragmentBinding
 
@@ -31,7 +29,7 @@ class BookDetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = LayoutBookDetailFragmentBinding.inflate(inflater, container, false)
 
 //        Log.d("TOTO", "${arguments}")
@@ -43,6 +41,8 @@ class BookDetailFragment : Fragment() {
         binding.title.text = currentBook.title
         binding.price.text = currentBook.price.toString()
         binding.number.text = currentBook.number.toString()
+
+
 
 
 
