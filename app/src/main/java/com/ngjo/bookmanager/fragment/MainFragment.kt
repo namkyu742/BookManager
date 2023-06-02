@@ -58,6 +58,12 @@ class MainFragment: Fragment() {
                 showDetailFragment1(title)
             }
 
+            override fun setCurrentBookTitle(title: String) {
+                viewModel.currentBookTitle = title
+                bookAdapter.currentTitle = viewModel.currentBookTitle
+                bookAdapter.notifyDataSetChanged()
+
+            }
         })
 
         binding.buttonAddBook.setOnClickListener {

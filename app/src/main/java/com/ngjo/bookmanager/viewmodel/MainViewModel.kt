@@ -8,4 +8,7 @@ class MainViewModel : ViewModel() {
     fun toggleIsShow() {
         this.isShow = !this.isShow
     }
+
+
+    var currentBookTitle = ""
 }

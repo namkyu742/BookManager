@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.ngjo.bookmanager.R
 import com.ngjo.bookmanager.data.Book
 import com.ngjo.bookmanager.databinding.ItemBookBinding
 
@@ -13,6 +14,9 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
     var bookList = mutableListOf<Book>()
 
     var bookListener: BookInterface? = null
+
+    var currentTitle: String = ""
+
     fun setBookInterface(listener: BookInterface) {
         bookListener = listener
     }
@@ -40,15 +44,31 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
 
 
+            if (currentTitle == book.title) {
+                binding.bookItem.setBackgroundResource(R.drawable.shape_item_book_selected)
+            } else {
+                binding.bookItem.setBackgroundResource(R.drawable.shape_item_book)
+            }
+
+
+
+
 
             binding.title.setOnClickListener {
                 Log.d("TOTO", "item Clicked : ${binding.title.text}")
                 bookListener?.showDetailFragment(binding.title.text.toString())
+                bookListener?.setCurrentBookTitle(book.title)
             }
         }
+    }
+
+    fun settingCurrentTitle(title: String) {
+        currentTitle = title
     }
 }
 
 interface BookInterface {
     fun showDetailFragment(title: String)
+
+    fun setCurrentBookTitle(title: String)
 }
