@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import com.ngjo.bookmanager.Database
 import com.ngjo.bookmanager.data.Book
 import com.ngjo.bookmanager.databinding.LayoutBookInsertFragmentBinding
-import com.ngjo.bookmanager.viewmodel.BookInsertViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +19,6 @@ import java.time.LocalDateTime
 
 class BookInsertFragment : Fragment() {
     private lateinit var binding: LayoutBookInsertFragmentBinding
-    private val viewModel by viewModels<BookInsertViewModel>()
 
     private var closeListener: CloseListener? = null
 
@@ -71,7 +69,8 @@ class BookInsertFragment : Fragment() {
             date = "$year/${monthOfYear + 1}/$dayOfMonth"
         }
 
-        binding.title.setText("dummy data")
+        binding.title.setLabelText("TITLE")
+        binding.title.setEditText("dummy data")
 
 
 
@@ -86,7 +85,7 @@ class BookInsertFragment : Fragment() {
             CoroutineScope(Dispatchers.Default).launch {
                 Database.database.bookDao().insertBook(
                     Book(
-                        title = binding.title.text.toString(),
+                        title = binding.title.getEditText(),
                         date = date
                     )
                 )
