@@ -25,6 +25,11 @@ class EditTextWithLabel(context: Context, attrs: AttributeSet?) : LinearLayout(c
         textView.text = labelText
     }
 
+    fun setEditTextType(inputType: Int) {
+        editText.inputType = inputType
+    }
+
+
     fun setLabelText(text: String) {
         textView.text = text
     }
@@ -33,7 +38,11 @@ class EditTextWithLabel(context: Context, attrs: AttributeSet?) : LinearLayout(c
         editText.setText(text)
     }
 
-    fun getEditText(): String {
+    fun getEditTextToString(): String {
         return editText.text.toString()
+    }
+
+    fun getEditTextToInt(): Int {
+        return editText.text.toString().toInt()
     }
 }

@@ -34,8 +34,20 @@
     <com.ngjo.bookmanager.view.EditTextWithLabel
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
 
+    <com.ngjo.bookmanager.view.EditTextWithLabel
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
+
+    <com.ngjo.bookmanager.view.EditTextWithLabel
+        android:id="@+id/number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
 
     <DatePicker
         android:id="@+id/date_picker"

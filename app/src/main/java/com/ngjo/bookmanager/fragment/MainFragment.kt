@@ -1,6 +1,7 @@
 package com.ngjo.bookmanager.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.ngjo.bookmanager.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainFragment: Fragment() {
@@ -69,6 +71,7 @@ class MainFragment: Fragment() {
                                 .remove(childFragment)
                                 .commit()
                         }
+                        refreshBookList()
                     }
                 })
             }
@@ -94,11 +97,15 @@ class MainFragment: Fragment() {
     }
 
     private fun refreshBookList() {
+        Log.d("TOTO", "refresh!")
         CoroutineScope(Dispatchers.Default).launch {
             bookList = Database.database.bookDao().getAll().toMutableList()
             bookAdapter.bookList = bookList
+
+            withContext(Dispatchers.Main) {
+                bookAdapter.notifyDataSetChanged()
+            }
         }
-        bookAdapter.notifyDataSetChanged()
     }
     private fun initDatabase() {
         Database.initDatabase(requireContext())

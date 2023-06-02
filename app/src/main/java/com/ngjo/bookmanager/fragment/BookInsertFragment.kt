@@ -3,18 +3,19 @@ package com.ngjo.bookmanager.fragment
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.ngjo.bookmanager.Database
 import com.ngjo.bookmanager.data.Book
 import com.ngjo.bookmanager.databinding.LayoutBookInsertFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 
 class BookInsertFragment : Fragment() {
@@ -71,7 +72,15 @@ class BookInsertFragment : Fragment() {
 
         binding.title.setLabelText("TITLE")
         binding.title.setEditText("dummy data")
+        binding.title.setEditTextType(InputType.TYPE_CLASS_TEXT)
 
+        binding.price.setLabelText("PRICE")
+        binding.price.setEditText("0")
+        binding.price.setEditTextType(InputType.TYPE_CLASS_NUMBER)
+
+        binding.number.setLabelText("NUMBER")
+        binding.number.setEditText("0")
+        binding.number.setEditTextType(InputType.TYPE_CLASS_NUMBER)
 
 
         binding.btnCancel.setOnClickListener {
@@ -85,13 +94,18 @@ class BookInsertFragment : Fragment() {
             CoroutineScope(Dispatchers.Default).launch {
                 Database.database.bookDao().insertBook(
                     Book(
-                        title = binding.title.getEditText(),
+                        title = binding.title.getEditTextToString(),
+                        price = binding.price.getEditTextToInt(),
+                        number = binding.number.getEditTextToInt(),
                         date = date
                     )
                 )
+                withContext(Dispatchers.Main) {
+                    closeListener?.onCloseChildFragment()
+                }
             }
 
-            closeListener?.onCloseChildFragment()
+
         }
 
 

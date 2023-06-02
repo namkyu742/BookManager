@@ -12,7 +12,7 @@ object Database {
     fun initDatabase(context: Context) {
         database = Room.databaseBuilder(
             context,
-            AppDatabase::class.java, "test_database-book2"
+            AppDatabase::class.java, "test_database-book1"
         ).build()
     }
 
