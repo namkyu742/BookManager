@@ -48,7 +48,6 @@ class MainFragment: Fragment() {
         binding = LayoutMainFragmentBinding.inflate(inflater, container, false)
 
         initFragment()
-//        initSampleData()
         initSearchBar()
         initDatabase()
 
@@ -109,7 +108,12 @@ class MainFragment: Fragment() {
             bookAdapter.bookList = bookList
 
             withContext(Dispatchers.Main) {
-                bookAdapter.notifyDataSetChanged()
+//                val size = bookList.size
+                bookList.forEachIndexed { index, book ->
+                    bookAdapter.notifyItemChanged(index)
+                }
+
+//                bookAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -131,14 +135,6 @@ class MainFragment: Fragment() {
             binding.layoutLeft.animation = anim
             binding.layoutLeft.visibility = View.GONE
         }
-    }
-
-    private fun initSampleData() {
-        bookList.add(Book(id = 0, title = "A-가나다라마바사", price = 6800, number = 0))
-        bookList.add(Book(id = 1, title = "B-아자차카타파하", price = 7800, number = 3))
-        bookList.add(Book(id = 2, title = "C-1234456789", price = 4800, number = 2))
-        bookAdapter.bookList = bookList
-        bookAdapter.notifyDataSetChanged()
     }
 
     private fun initSearchBar() {
