@@ -59,15 +59,6 @@ class MainFragment: Fragment() {
         })
 
         binding.buttonAddBook.setOnClickListener {
-//            CoroutineScope(Dispatchers.Default).launch {
-//                database.bookDao().insertBook(Book(
-//                    title = "dbtest"
-//                ))
-//                bookList = database.bookDao().getAll().toMutableList()
-//                bookAdapter.bookList = bookList
-//            }
-//            bookAdapter.notifyDataSetChanged()
-
 
             val bookInsertFragment = BookInsertFragment.newInstance().apply {
                 setCloseListener(object: CloseListener {

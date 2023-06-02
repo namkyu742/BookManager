@@ -66,10 +66,13 @@ class BookInsertFragment : Fragment() {
         var date = ""
 
         binding.datePicker.init(mYear, mMonth, mDay) { view, year, monthOfYear, dayOfMonth ->
-            Log.d("TOTO", "date: $year/$monthOfYear/$dayOfMonth : $view")
+            Log.d("TOTO", "date: $year/${monthOfYear + 1}/$dayOfMonth : $view")
             Log.d("TOTO", "time: ${currentData.hour}:${currentData.minute}:${currentData.second}")
-            date = "$year/$monthOfYear/$dayOfMonth"
+            date = "$year/${monthOfYear + 1}/$dayOfMonth"
         }
+
+        binding.title.setText("dummy data")
+
 
 
         binding.btnCancel.setOnClickListener {
