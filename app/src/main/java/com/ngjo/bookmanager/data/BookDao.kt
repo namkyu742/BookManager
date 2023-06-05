@@ -1,7 +1,6 @@
 package com.ngjo.bookmanager.data
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 
@@ -15,4 +14,7 @@ interface BookDao {
 
     @Query("DELETE FROM books WHERE title = :title")
     fun deleteBookByTitle(title: String)
+
+    @Query("SELECT * FROM books WHERE title = :title")
+    fun selectBookByTitle(title: String) : Book
 }

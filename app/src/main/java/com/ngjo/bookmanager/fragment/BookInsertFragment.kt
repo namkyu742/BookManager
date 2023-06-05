@@ -1,7 +1,6 @@
 package com.ngjo.bookmanager.fragment
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -16,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
 
 class BookInsertFragment : Fragment() {
     private lateinit var binding: LayoutBookInsertFragmentBinding
@@ -103,25 +101,33 @@ class BookInsertFragment : Fragment() {
 
 
         binding.btnCancel.setOnClickListener {
-            Log.d("TOTO", "cancel")
             closeListener?.onCloseChildFragment()
         }
 
         binding.btnConfirm.setOnClickListener {
-            Log.d("TOTO", "confirm")
-            // 현재시각도 넣을 것
             CoroutineScope(Dispatchers.Default).launch {
-                Database.database.bookDao().insertBook(
-                    Book(
-                        title = binding.title.getEditTextToString(),
-                        price = binding.price.getEditTextToInt(),
-                        number = binding.number.getEditTextToInt(),
-                        date = binding.date.getEditTextLabelToString()
+                val temp = Database.database.bookDao().selectBookByTitle(binding.title.getEditTextToString())
+                Log.d("TOTO", "$temp")
+
+                if (temp == null) {
+                    Database.database.bookDao().insertBook(
+                        Book(
+                            title = binding.title.getEditTextToString(),
+                            price = binding.price.getEditTextToInt(),
+                            number = binding.number.getEditTextToInt(),
+                            date = binding.date.getEditTextLabelToString()
+                        )
                     )
-                )
-                withContext(Dispatchers.Main) {
-                    closeListener?.onCloseChildFragment()
+                    withContext(Dispatchers.Main) {
+                        closeListener?.onCloseChildFragment()
+                    }
                 }
+                else {
+                    NoticeDialogFragment.newInstance().show(childFragmentManager, "")
+                }
+
+
+
             }
 
 

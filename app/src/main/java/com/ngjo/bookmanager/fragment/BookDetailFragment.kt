@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,8 +15,6 @@ import com.ngjo.bookmanager.viewmodel.BookDetailViewModel
 class BookDetailFragment : Fragment() {
     private lateinit var binding: LayoutBookDetailFragmentBinding
     private val viewModel by viewModels<BookDetailViewModel>()
-
-    private lateinit var field: TextView
 
     private var bookDetailListener: BookDetailListener? = null
 

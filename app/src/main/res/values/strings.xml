@@ -5,6 +5,7 @@
 
     <string name="btn_cancel">Cancel</string>
     <string name="btn_confirm">Confirm</string>
+    <string name="btn_delete">Delete</string>
 
 
     <string name="xml_warnings">xml 경고 무시</string>
