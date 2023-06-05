@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">BookManager</string>
+
+
+
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_confirm">Confirm</string>
+
+
+    <string name="xml_warnings">xml 경고 무시</string>
 </resources>

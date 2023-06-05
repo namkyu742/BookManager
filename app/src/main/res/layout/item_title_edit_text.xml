@@ -12,9 +12,17 @@
 
     <EditText
         android:id="@+id/editText"
-        android:background="@drawable/shape_edit_text_with_label"
-        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_edit_text_with_label"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/editTextLabel"
+        android:background="@drawable/shape_edit_text_with_label"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
 </LinearLayout>

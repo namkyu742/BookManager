@@ -88,9 +88,6 @@ class MainFragment: Fragment() {
 
         }
 
-        binding.buttonTest.setOnClickListener {
-            refreshBookList()
-        }
 
 
         binding.btnToggleList.setOnClickListener {
@@ -161,7 +158,31 @@ class MainFragment: Fragment() {
         var tFragment = BookDetailFragment.newInstance(Book()) // 비효율적. 수정필요
         bookList.forEach {
             if (it.title == title) {
-                tFragment = BookDetailFragment.newInstance(it)
+                tFragment = BookDetailFragment.newInstance(it).apply {
+                    setBookDetailListener(object: BookDetailListener{
+                        override fun deleteBookByTitle(title: String) {
+                            CoroutineScope(Dispatchers.Default).launch {
+                                val beforeSize = bookList.size
+                                Database.database.bookDao().deleteBookByTitle(title = title)
+                                bookList = Database.database.bookDao().getAll().toMutableList()
+
+                                bookAdapter.bookList = bookList
+
+                                withContext(Dispatchers.Main) {
+//                                    Log.d("TOTO", "bookListSize = ${bookAdapter.bookList.size}")
+                                    for (i in 0 until beforeSize) {
+                                        bookAdapter.notifyItemChanged(i)
+                                    }
+
+//                                    bookAdapter.notifyDataSetChanged()
+                                }
+                            }
+
+
+                        }
+
+                    })
+                }
 
             }
         }

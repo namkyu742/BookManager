@@ -54,33 +54,52 @@ class BookInsertFragment : Fragment() {
     ): View {
         binding = LayoutBookInsertFragmentBinding.inflate(inflater, container, false)
 
-        val currentData = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDateTime.now()
-        } else {
-            TODO("VERSION.SDK_INT < O")
-        }
-        val mYear: Int = currentData.year
-        val mMonth: Int = currentData.monthValue-1
-        val mDay: Int = currentData.dayOfMonth
-        var date = ""
-
-        binding.datePicker.init(mYear, mMonth, mDay) { view, year, monthOfYear, dayOfMonth ->
-            Log.d("TOTO", "date: $year/${monthOfYear + 1}/$dayOfMonth : $view")
-            Log.d("TOTO", "time: ${currentData.hour}:${currentData.minute}:${currentData.second}")
-            date = "$year/${monthOfYear + 1}/$dayOfMonth"
-        }
-
         binding.title.setLabelText("TITLE")
-        binding.title.setEditText("dummy data")
         binding.title.setEditTextType(InputType.TYPE_CLASS_TEXT)
 
         binding.price.setLabelText("PRICE")
-        binding.price.setEditText("0")
         binding.price.setEditTextType(InputType.TYPE_CLASS_NUMBER)
 
         binding.number.setLabelText("NUMBER")
-        binding.number.setEditText("0")
         binding.number.setEditTextType(InputType.TYPE_CLASS_NUMBER)
+
+        binding.date.setLabelText("DATE")
+        binding.date.changeMode()
+        binding.date.setCustomClickListener {
+            val newFragment = DatePickerDialogFragment.newInstance().apply {
+                setDatePickerListener(object: DatePickerListener{
+                    override fun actionConfirm(year: Int, month: Int, day: Int) {
+                        val formattedYear = "$year"
+                        var formattedMonth = "$month"
+                        var formattedDay = "$day"
+
+                        if(month<10) formattedMonth = "0$month"
+                        if(day<10) formattedDay = "0$day"
+
+                        val date = "${formattedYear}년 ${formattedMonth}월 ${formattedDay}일"
+//                        binding.date.text = date
+                        binding.date.setEditText(date)
+
+                    }
+                })
+            }
+            newFragment.show(childFragmentManager, "")
+        }
+
+
+
+
+
+
+
+
+
+
+        binding.title.setEditText("dummy data")
+        binding.price.setEditText("0")
+        binding.number.setEditText("0")
+
+
 
 
         binding.btnCancel.setOnClickListener {
@@ -97,7 +116,7 @@ class BookInsertFragment : Fragment() {
                         title = binding.title.getEditTextToString(),
                         price = binding.price.getEditTextToInt(),
                         number = binding.number.getEditTextToInt(),
-                        date = date
+                        date = binding.date.getEditTextLabelToString()
                     )
                 )
                 withContext(Dispatchers.Main) {
@@ -108,9 +127,10 @@ class BookInsertFragment : Fragment() {
 
         }
 
-
         return binding.root
     }
+
+
 
 
 }

@@ -1,11 +1,11 @@
 package com.ngjo.bookmanager.fragment
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +16,15 @@ import com.ngjo.bookmanager.viewmodel.BookDetailViewModel
 class BookDetailFragment : Fragment() {
     private lateinit var binding: LayoutBookDetailFragmentBinding
     private val viewModel by viewModels<BookDetailViewModel>()
+
+    private lateinit var field: TextView
+
+    private var bookDetailListener: BookDetailListener? = null
+
+    fun setBookDetailListener(listener: BookDetailListener) {
+        bookDetailListener = listener
+    }
+
 
     companion object {
         fun newInstance(
@@ -35,6 +44,7 @@ class BookDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = LayoutBookDetailFragmentBinding.inflate(inflater, container, false)
 
         initViewModel()
@@ -43,6 +53,14 @@ class BookDetailFragment : Fragment() {
         binding.price.text = viewModel.currentBook.price.toString()
         binding.number.text = viewModel.currentBook.number.toString()
         binding.date.text = viewModel.currentBook.date
+
+
+
+        binding.btnDelete.setOnClickListener {
+            bookDetailListener?.deleteBookByTitle(viewModel.currentBook.title)
+        }
+
+
 
 
 
