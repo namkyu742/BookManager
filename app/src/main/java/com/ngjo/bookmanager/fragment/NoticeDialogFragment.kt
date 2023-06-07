@@ -26,7 +26,7 @@ class NoticeDialogFragment : DialogFragment() {
 
         binding.dialogTitle.text = "ALERT"
         binding.content.text = "중복입니다."
-        // commit test
+        // commit test2
 
         return binding.root
     }
