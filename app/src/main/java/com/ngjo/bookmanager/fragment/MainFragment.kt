@@ -1,5 +1,6 @@
 package com.ngjo.bookmanager.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -65,6 +66,7 @@ class MainFragment: Fragment() {
             }
         })
 
+        binding.buttonAddBook.setColorFilter(Color.parseColor("#FFFFFFFF"))
         binding.buttonAddBook.setOnClickListener {
 
             val bookInsertFragment = BookInsertFragment.newInstance().apply {

@@ -5,5 +5,13 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.BookManager" parent="Base.Theme.BookManager" />
+    <style name="Theme.BookManager" parent="Base.Theme.BookManager">
+        <!-- 초기로딩시 검은 화면 없애기-->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+
+    </style>
+
+
 </resources>
