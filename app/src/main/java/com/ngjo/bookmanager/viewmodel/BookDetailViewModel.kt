@@ -5,6 +5,7 @@ import com.ngjo.bookmanager.data.Book
 
 class BookDetailViewModel : ViewModel() {
     var currentBook = Book()
+    var containerId:Int = 0
 
 
 }

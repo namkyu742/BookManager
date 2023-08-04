@@ -44,10 +44,6 @@ class DatePickerDialogFragment : DialogFragment() {
 
 
     private fun eventListener() {
-        binding.btnConfirm.setOnClickListener {
-            datePickerListener?.actionConfirm(mYear, mMonth, mDay)
-            dismiss()
-        }
         binding.btnCancel.setOnClickListener {
             dismiss()
         }
@@ -55,6 +51,8 @@ class DatePickerDialogFragment : DialogFragment() {
             mYear = year
             mMonth = monthOfYear + 1
             mDay = dayOfMonth
+            datePickerListener?.actionConfirm(mYear, mMonth, mDay)
+            dismiss()
         }
     }
 

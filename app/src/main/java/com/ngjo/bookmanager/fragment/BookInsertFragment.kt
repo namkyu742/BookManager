@@ -1,12 +1,14 @@
 package com.ngjo.bookmanager.fragment
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.ngjo.bookmanager.Database
 import com.ngjo.bookmanager.data.Book
@@ -15,6 +17,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class BookInsertFragment : Fragment() {
     private lateinit var binding: LayoutBookInsertFragmentBinding
@@ -45,6 +49,7 @@ class BookInsertFragment : Fragment() {
         closeListener = null
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -75,29 +80,21 @@ class BookInsertFragment : Fragment() {
                         if(day<10) formattedDay = "0$day"
 
                         val date = "${formattedYear}년 ${formattedMonth}월 ${formattedDay}일"
-//                        binding.date.text = date
                         binding.date.setEditText(date)
-
                     }
                 })
             }
             newFragment.show(childFragmentManager, "")
         }
 
-
-
-
-
-
-
-
-
-
+        val currentDate = LocalDateTime.now()
+        val currentYear = currentDate.year
+        val currentMonth = if(currentDate.monthValue<10) "0${currentDate.monthValue}" else "${currentDate.monthValue}"
+        val currentDay = if(currentDate.dayOfMonth<10) "0${currentDate.dayOfMonth}" else "${currentDate.dayOfMonth}"
         binding.title.setEditText("dummy data")
         binding.price.setEditText("0")
         binding.number.setEditText("0")
-
-
+        binding.date.setEditText("${currentYear}년 ${currentMonth}월 ${currentDay}일")
 
 
         binding.btnCancel.setOnClickListener {
@@ -107,7 +104,6 @@ class BookInsertFragment : Fragment() {
         binding.btnConfirm.setOnClickListener {
             CoroutineScope(Dispatchers.Default).launch {
                 val temp = Database.database.bookDao().selectBookByTitle(binding.title.getEditTextToString())
-                Log.d("TOTO", "$temp")
 
                 if (temp == null) {
                     Database.database.bookDao().insertBook(
@@ -123,16 +119,13 @@ class BookInsertFragment : Fragment() {
                     }
                 }
                 else {
-                    NoticeDialogFragment.newInstance().show(childFragmentManager, "")
+                    NoticeDialogFragment.newInstance(
+                        title = "ALERT",
+                        content = "중복입니다.\n"
+                    ).show(childFragmentManager, "")
                 }
-
-
-
             }
-
-
         }
-
         return binding.root
     }
 

@@ -8,12 +8,18 @@ import androidx.fragment.app.DialogFragment
 import com.ngjo.bookmanager.databinding.LayoutNoticeDialogBinding
 import com.ngjo.bookmanager.dialogFragmentResize
 
-class NoticeDialogFragment : DialogFragment() {
+class NoticeDialogFragment(
+    private val title: String,
+    private val content: String
+) : DialogFragment() {
     private lateinit var binding: LayoutNoticeDialogBinding
 
     companion object {
-        fun newInstance(): NoticeDialogFragment {
-            return NoticeDialogFragment()
+        fun newInstance(
+            title: String,
+            content: String
+        ): NoticeDialogFragment {
+            return NoticeDialogFragment(title, content)
         }
     }
 
@@ -24,15 +30,19 @@ class NoticeDialogFragment : DialogFragment() {
     ): View {
         binding = LayoutNoticeDialogBinding.inflate(inflater, container, false)
 
-        binding.dialogTitle.text = "ALERT"
-        binding.content.text = "중복입니다."
+        binding.dialogTitle.text = title
+        binding.content.text = content
+
+        binding.btnDismiss.setOnClickListener {
+            this@NoticeDialogFragment.dismiss()
+        }
 
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        context?.dialogFragmentResize(this@NoticeDialogFragment, 0.4f, 0.4f)
+        context?.dialogFragmentResize(this@NoticeDialogFragment, 0.3f, 0.3f)
     }
 
 }

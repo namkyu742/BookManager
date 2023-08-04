@@ -2,7 +2,6 @@ package com.ngjo.bookmanager.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +40,7 @@ class MainFragment: Fragment() {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,9 +53,10 @@ class MainFragment: Fragment() {
         initDatabase()
 
 
+
         bookAdapter.setBookInterface(object : BookInterface {
             override fun showDetailFragment(title: String) {
-                showDetailFragment1(title)
+                this@MainFragment.showDetailFragment(title)
             }
 
             override fun setCurrentBookTitle(title: String) {
@@ -66,11 +67,13 @@ class MainFragment: Fragment() {
             }
         })
 
+
+
         binding.buttonAddBook.setColorFilter(Color.parseColor("#FFFFFFFF"))
         binding.buttonAddBook.setOnClickListener {
 
             val bookInsertFragment = BookInsertFragment.newInstance().apply {
-                setCloseListener(object: CloseListener {
+                setCloseListener(object : CloseListener{
                     override fun onCloseChildFragment() {
                         val childFragment = parentFragmentManager.findFragmentById(binding.fragmentContainerView.id)
                         childFragment?.let {
@@ -101,18 +104,15 @@ class MainFragment: Fragment() {
     }
 
     private fun refreshBookList() {
-        Log.d("TOTO", "refresh!")
         CoroutineScope(Dispatchers.Default).launch {
             bookList = Database.database.bookDao().getAll().toMutableList()
             bookAdapter.bookList = bookList
 
             withContext(Dispatchers.Main) {
-//                val size = bookList.size
-                bookList.forEachIndexed { index, book ->
-                    bookAdapter.notifyItemChanged(index)
+                val size = bookList.size+1
+                for (i in 0 until size) {
+                    bookAdapter.notifyItemChanged(i)
                 }
-
-//                bookAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -156,11 +156,11 @@ class MainFragment: Fragment() {
     }
 
 
-    fun showDetailFragment1(title: String) {
-        var tFragment = BookDetailFragment.newInstance(Book()) // 비효율적. 수정필요
+    fun showDetailFragment(title: String) {
+//        var tFragment = BookDetailFragment.newInstance(Book()) // 비효율적. 수정필요
         for (index in 0 until bookList.size) {
             if (bookList[index].title == title) {
-                tFragment = BookDetailFragment.newInstance(bookList[index]).apply {
+                val tFragment = BookDetailFragment.newInstance(bookList[index], binding.fragmentContainerView.id).apply {
                     setBookDetailListener(object: BookDetailListener{
                         override fun deleteBookByTitle(title: String) {
                             CoroutineScope(Dispatchers.Default).launch {
@@ -178,6 +178,17 @@ class MainFragment: Fragment() {
                             }
                         }
                     })
+                    setCloseListener(object: CloseListener{
+                        override fun onCloseChildFragment() {
+                            val childFragment = parentFragmentManager.findFragmentById(binding.fragmentContainerView.id)
+                            childFragment?.let {
+                                parentFragmentManager.beginTransaction()
+                                    .remove(childFragment)
+                                    .commit()
+                            }
+                            refreshBookList()
+                        }
+                    })
                 }
                 childFragmentManager.beginTransaction()
                     .replace(binding.fragmentContainerView.id, tFragment)
@@ -185,34 +196,10 @@ class MainFragment: Fragment() {
                 break
             }
         }
-
-//        bookList.forEach {
-//            if (it.title == title) {
-//                tFragment = BookDetailFragment.newInstance(it).apply {
-//                    setBookDetailListener(object: BookDetailListener{
-//                        override fun deleteBookByTitle(title: String) {
-//                            CoroutineScope(Dispatchers.Default).launch {
-//                                val beforeSize = bookList.size
-//                                Database.database.bookDao().deleteBookByTitle(title = title)
-//                                bookList = Database.database.bookDao().getAll().toMutableList()
-//
-//                                bookAdapter.bookList = bookList
-//
-//                                withContext(Dispatchers.Main) {
-//                                    for (i in 0 until beforeSize) {
-//                                        bookAdapter.notifyItemChanged(i)
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    })
-//                }
-//
-//            }
-//        }
-//        childFragmentManager.beginTransaction()
-//            .replace(binding.fragmentContainerView.id, tFragment)
-//            .commit()
-
     }
+
+
+
+
+
 }

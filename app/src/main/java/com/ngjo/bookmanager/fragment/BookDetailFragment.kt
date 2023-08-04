@@ -17,6 +17,11 @@ class BookDetailFragment : Fragment() {
     private val viewModel by viewModels<BookDetailViewModel>()
 
     private var bookDetailListener: BookDetailListener? = null
+    private var closeListener: CloseListener? = null
+
+    fun setCloseListener(listener: CloseListener) {
+        closeListener = listener
+    }
 
     fun setBookDetailListener(listener: BookDetailListener) {
         bookDetailListener = listener
@@ -25,12 +30,14 @@ class BookDetailFragment : Fragment() {
 
     companion object {
         fun newInstance(
-            book: Book
+            book: Book,
+            containerId: Int
         ): BookDetailFragment {
             return BookDetailFragment().apply {
 //                viewModel.currentBook = book
                 arguments = bundleOf(
-                    "book" to book
+                    "book" to book,
+                    "containerId" to containerId
                 )
             }
         }
@@ -51,10 +58,36 @@ class BookDetailFragment : Fragment() {
         binding.number.text = viewModel.currentBook.number.toString()
         binding.date.text = viewModel.currentBook.date
 
+//
+//        binding.btnUpdate.setOnClickListener {
+//
+//
+//            val bookInsertFragment = BookInsertFragment.newInstance().apply {
+////                setCloseListener(object : CloseListener{
+////                    override fun onCloseChildFragment() {
+////                        val childFragment = parentFragmentManager.findFragmentById(viewModel.containerId)
+////                        childFragment?.let {
+////                            parentFragmentManager.beginTransaction()
+////                                .remove(childFragment)
+////                                .commit()
+////                        }
+//////                        refreshBookList()
+////                    }
+////                })
+//            }
+//
+//            parentFragmentManager.beginTransaction()
+////            childFragmentManager.beginTransaction()
+//                .replace(viewModel.containerId, bookInsertFragment)
+//                .addToBackStack(null)
+//                .commit()
+//
+//        }
 
 
         binding.btnDelete.setOnClickListener {
             bookDetailListener?.deleteBookByTitle(viewModel.currentBook.title)
+            closeListener?.onCloseChildFragment()
         }
 
 
@@ -68,6 +101,7 @@ class BookDetailFragment : Fragment() {
         arguments?.run {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 viewModel.currentBook = getParcelable("book", Book::class.java) ?: Book()
+                viewModel.containerId = getInt("containerId")
             }
         }
     }

@@ -16,6 +16,13 @@
             android:background="@color/gray_33"
             android:orientation="horizontal">
             <ImageButton
+                android:id="@+id/btn_update"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:background="@drawable/outline_edit_white_48dp"
+                android:contentDescription="@string/btn_update"/>
+            <ImageButton
                 android:id="@+id/btn_delete"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

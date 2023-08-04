@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/title2">
+        android:background="@color/gray_33">
 
         <View
             android:layout_width="0dp"
@@ -15,21 +15,11 @@
             android:layout_weight="1"/>
         <ImageButton
             android:id="@+id/btn_cancel"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_margin="@dimen/button_margin"
             android:background="@drawable/outline_clear_white_48dp"
-            android:backgroundTint="@color/white"
             android:contentDescription="@string/btn_cancel"/>
-        <ImageButton
-            android:id="@+id/btn_confirm"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/outline_check_white_48dp"
-            android:backgroundTint="@color/white"
-            android:contentDescription="@string/btn_confirm"/>
-
 
     </LinearLayout>
 
